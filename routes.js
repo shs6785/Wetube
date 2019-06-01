@@ -33,10 +33,23 @@ const routes = {
     login: LOGIN,
     logout: LOGOUT,
     search: SEARCH,
-    users: USERS,
-    userDetail: USER_DETAIL,
+    users:USERS,
+    userDetail: id => {
+        if (id) {
+          return `/users/${id}`;
+        } else {
+          return USER_DETAIL;
+        }
+      },
+    videoDetail: id => {
+        if(id) {
+          return `/videos/${id}`;
+        } else {
+          return VIDEO_DETAIL;
+        }
+      },
     editProfile: EDIT_PROFILE,
-    changePassord: CHANGE_PASSWORD,
+    changePassword: CHANGE_PASSWORD,
     videos: VIDEOS,
     upload: UPLOAD,
     videoDetail: VIDEOS_DETAIL,
