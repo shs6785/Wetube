@@ -48,12 +48,22 @@ const routes = {
           return VIDEO_DETAIL;
         }
       },
-    editProfile: EDIT_PROFILE,
+    editProfile: id => {
+      if (id) {
+        return `/videos/${id}/edit`
+      }
+      return EDIT_PROFILE;
+    },
     changePassword: CHANGE_PASSWORD,
     videos: VIDEOS,
     upload: UPLOAD,
-    //videoDetail: VIDEOS_DETAIL,
-    editVideo: EDIT_VIDEO,
+    editVideo: id => {
+      if (id) {
+        return `/videos/${id}/edit`;
+      } else {
+        return EDIT_VIDEO;
+      }
+    },
     deleteVideo: DELETE_VIDEO
 };
 
