@@ -1,43 +1,44 @@
 
 const path = require("path");
 const autoprefixer = require("autoprefixer");
-const ExtractCSS = require("extract-text-webpack-plugin");
+const ExtractCss = require("extract-text-webpack-plugin");
 
-const MODE = process.env.WEBPACK_ENV;
+//const MODE = process.env.WEBPACK_ENV;
 const ENTRY_FILE = path.resolve(__dirname, "assets", "js", "main.js");
 const OUTPUT_DIR = path.join(__dirname, "static");
 
 const config = {
-    entry: ENTRY_FILE,
-    mode: MODE,
-    module: {
-      rules: [
-        {
-          test: /\.(scss)$/,
-          use: ExtractCSS.extract([
-            {
-              loader: "css-loader"
-            },
+  entry: ENTRY_FILE,
+  output: {
+    path: OUTPUT_DIR,
+    filename: "[name].js"
+  },
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ExtractCss.extract({
+          fallback: "style-loader", // css가 추출되지 않을 때 사용하는 로더
+          use: [
+            { loader: "css-loader" },
             {
               loader: "postcss-loader",
               options: {
-                  plugin() {
-                      return [autoprefixer({ browsers: "cover 99.5%"})];
-                  }
+                plugins() {
+                  return autoprefixer({ browsers: "cover 99.5%" });
+                }
               }
             },
-            {
-              loader: "sass-loader"
-            }
-          ])
-        }
-      ]
-    },
-    output: {
-      path: OUTPUT_DIR,
-      filename: "[name].[format]"
-    },
-    plugin: [new ExtractCSS("styles.css")]
+            { loader: "sass-loader" }
+          ],
+          publicPath: OUTPUT_DIR // 경로 재설정
+        })
+      }
+    ]
+  },
+  plugins: [new ExtractCss("styles.css")]
 };
+
+
 
 module.exports = config;
